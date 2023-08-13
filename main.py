@@ -5,7 +5,7 @@ from routes.users_router import users_router
 app = FastAPI()
 
 
-# 메인 피드
+# 테스트용
 @app.get("/")
 async def main() -> dict:
     return {

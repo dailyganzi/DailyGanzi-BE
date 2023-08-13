@@ -1,0 +1,77 @@
+{
+    "updated": "str",
+    "todayNews": {
+        "hot_topic": ["key1", "key2", "key3"],
+        "categories": [
+            {
+                "category_name": "정치",
+                "category_id": 100,
+                "details": [
+                    {
+                        "title1": {
+                            "img_url": "http어쩌고",
+                            "contents": [
+                                "con1", "con2", "con3"
+                            ],
+                            "articles_url": ["url1", "url2", "url3"],
+                            "keywords": ["key4", "key2", "key1"]
+                        },
+
+                        "title2": {
+                            "img_url": "http어쩌고",
+                            "contents": [
+                                "con1", "con2", "con3"
+                            ],
+                            "articles_url": ["url1", "url2", "url3"],
+                            "keywords": ["key4", "key2", "key1"]
+                        },
+
+                        "title3": {
+                            "img_url": "http어쩌고",
+                            "contents": [
+                                "con1", "con2", "con3"
+                            ],
+                            "articles_url": ["url1", "url2", "url3"],
+                            "keywords": ["key4", "key2", "key1"]
+                        }
+                    }
+                ]
+            },
+            {
+                "category_name": "IT과학",
+                "category_id": 101,
+                "details": [
+                    {
+                        "title1": {
+                            "img_url": "http어쩌고",
+                            "contents": [
+                                "con1", "con2", "con3"
+                            ],
+                            "articles_url": ["url1", "url2", "url3"],
+                            "keywords": ["key4", "key2", "key1"]
+                        },
+
+                        "title2": {
+                            "img_url": "http어쩌고",
+                            "contents": [
+                                "con1", "con2", "con3"
+                            ],
+                            "articles_url": ["url1", "url2", "url3"],
+                            "keywords": ["key4", "key2", "key1"]
+                        },
+
+                        "title3": {
+                            "img_url": "http어쩌고",
+                            "contents": [
+                                "con1", "con2", "con3"
+                            ],
+                            "articles_url": ["url1", "url2", "url3"],
+                            "keywords": ["key4", "key2", "key1"]
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+
+}
