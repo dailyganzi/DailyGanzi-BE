@@ -2,34 +2,61 @@ from typing import List, Dict
 from pydantic import BaseModel, HttpUrl
 
 
+class RelatedNews(BaseModel):
+    press: str
+    title: str
+    preview: str
+    url: HttpUrl
+
+    class Config:
+        json_schema_extra = {
+            "related": {
+                "press": "세계일보" ,
+                "title": "‘보수 원로’ 윤여준 尹에 “평소 실력 안 되는데 어떻게 잼버리 위기대응하겠나”" ,
+                "preview": ["윤 전 장관은 ..."] ,
+                "url": "https://n.news.naver.com/mnews/article/022/0003844477?sid=100"
+            }
+        }
+
 class TitleContents(BaseModel):
     img_url: HttpUrl
     contents: List[str]
-    articles_url: List[HttpUrl]
-    keywords: List[str]
+    related: List[RelatedNews]
 
     class Config:
         json_schema_extra = {
             "hungryNana": {
                 "img_url": "https://picsum.photos/200/300",
-                "contents": ["나녕이가 배고파서 밥을 먹었다.", "저녁밥 두 그릇이 없어짐.", "나녕이가 배고파서 울었다."],
-                "articles_url": ["https://example.com/article1", "https://example.com/article2",
-                                 "https://example.com/article3"],
-                "keywords": ["나녕이", "저녁밥", "울었다"]
+                "contents": [
+                    "나녕이가 배고파서 밥을 먹었다.",
+                    "저녁밥 두 그릇이 없어짐.",
+                    "나녕이가 배고파서 울었다."
+                ],
+                "related": [
+                    RelatedNews.Config.json_schema_extra["related"]
+                ],
             },
             "sleepyNana": {
                 "img_url": "https://picsum.photos/200/300",
-                "contents": ["나녕이의 숙면시간은 0.5시간이다.", "나녕이가 밤샘 작업을 했다.", "속보 침대붕괴사건 발생"],
-                "articles_url": ["https://example.com/article1", "https://example.com/article2",
-                                 "https://example.com/article3"],
-                "keywords": ["밤샘", "숙면시간", "침대붕괴사건"]
+                "contents": [
+                    "나녕이의 숙면시간은 0.5시간이다.",
+                    "나녕이가 밤샘 작업을 했다.",
+                    "속보 침대붕괴사건 발생"
+                ],
+                "related": [
+                    RelatedNews.Config.json_schema_extra["related"]
+                ],
             },
             "happyNana": {
                 "img_url": "https://picsum.photos/200/300",
-                "contents": ["나녕이가 행복함을 느꼈다.", "앵무새가 나녕이를 물었다.", "나녕이가 맥북을 때렸다."],
-                "articles_url": ["https://example.com/article1", "https://example.com/article2",
-                                 "https://example.com/article3"],
-                "keywords": ["행복함", "앵무새", "맥북"]
+                "contents": [
+                    "나녕이가 행복함을 느꼈다.",
+                    "앵무새가 나녕이를 물었다.",
+                    "나녕이가 맥북을 때렸다."
+                ],
+                "related": [
+                    RelatedNews.Config.json_schema_extra["related"]
+                ],
             }
         }
 
