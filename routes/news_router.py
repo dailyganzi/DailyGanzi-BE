@@ -1,10 +1,6 @@
 from typing import List
-
 from fastapi import APIRouter, HTTPException
-from pydantic import FilePath
-from urllib.parse import unquote
-from models.news_model import category_list, TodayNews, NewsDataList, NewsCategories, NewsDetails, TitleContents
-import json
+from models.news_model import category_list, NewsCategories
 
 news_router = APIRouter()
 
@@ -33,6 +29,8 @@ async def get_category_news(category_id: int):
     else:
         return {"message": "Category not found"}
 
+
+# 오전 12시 이후 뉴스 업데이트
 
 
 
