@@ -34,35 +34,54 @@ class TitleContents(BaseModel):
         }
 
 
-class NewsDetails(BaseModel):
-    title1: TitleContents
-    title2: TitleContents
-    title3: TitleContents
+# 오늘의 키워드 리스트 모델
+class TitleKeys(BaseModel):
+    keys: List[str]
 
     class Config:
         schema_extra = {
             "example": {
-                "title1": TitleContents.Config.schema_extra["hungryNana"],
-                "title2": TitleContents.Config.schema_extra["sleepyNana"],
-                "title3": TitleContents.Config.schema_extra["happyNana"]
+                "keys": ["hungryNana", "sleepyNana", "happyNana"]
             }
         }
+
+
+class NewsDetails(BaseModel):
+    title1: dict[str, TitleContents]
+    title2: dict[str, TitleContents]
+    title3: dict[str, TitleContents]
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "hungryNana": TitleContents.Config.schema_extra["hungryNana"],
+                "sleepyNana": TitleContents.Config.schema_extra["sleepyNana"],
+                "happyNana": TitleContents.Config.schema_extra["happyNana"]
+            }
+
+        }
+
 
 
 class NewsCategories(BaseModel):
     category_name: str
     category_id: int
-    details: List[NewsDetails]
+    title_keys: List[TitleKeys]
+    details: NewsDetails
+
 
     class Config:
         schema_extra = {
             "example": {
                 "category_name": "사회",
                 "category_id": 102,
+                "title_keys": TitleKeys.Config.schema_extra["example"]["keys"],
                 "details": [
-                    NewsDetails.Config.schema_extra["example"]["title1"],
-                    NewsDetails.Config.schema_extra["example"]["title2"],
-                    NewsDetails.Config.schema_extra["example"]["title3"]
+                    {
+                        "hungryNana": NewsDetails.Config.schema_extra["example"]["hungryNana"],
+                        "sleepyNana": NewsDetails.Config.schema_extra["example"]["sleepyNana"],
+                        "happyNana": NewsDetails.Config.schema_extra["example"]["happyNana"]
+                    }
                 ]
             }
         }

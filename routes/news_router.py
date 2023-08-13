@@ -26,7 +26,10 @@ async def get_categories():
 async def get_category_news(category_id: int):
     example_category = NewsCategories.Config.schema_extra["example"]
     if example_category["category_id"] == category_id:
-        return {"details": example_category["details"]}
+        return {
+            "today_keys": example_category["title_keys"],
+            "details": example_category["details"]
+                }
     else:
         return {"message": "Category not found"}
 
