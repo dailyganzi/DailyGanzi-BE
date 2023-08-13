@@ -24,7 +24,7 @@ async def get_categories():
 # 카테고리 선택 -> 해당 카테고리 상세페이지 조회 (일단 Config를 넣어놨음)
 @news_router.get("/api/{category_id}/newsPage")
 async def get_category_news(category_id: int):
-    example_category = NewsCategories.Config.schema_extra["example"]
+    example_category = NewsCategories.Config.json_schema_extra["example"]
     if example_category["category_id"] == category_id:
         return {
             "today_keys": example_category["title_keys"],

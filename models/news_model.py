@@ -9,7 +9,7 @@ class TitleContents(BaseModel):
     keywords: List[str]
 
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "hungryNana": {
                 "img_url": "https://picsum.photos/200/300",
                 "contents": ["나녕이가 배고파서 밥을 먹었다.", "저녁밥 두 그릇이 없어짐.", "나녕이가 배고파서 울었다."],
@@ -39,7 +39,7 @@ class TitleKeys(BaseModel):
     keys: List[str]
 
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "keys": ["hungryNana", "sleepyNana", "happyNana"]
             }
@@ -52,11 +52,11 @@ class NewsDetails(BaseModel):
     title3: dict[str, TitleContents]
 
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
-                "hungryNana": TitleContents.Config.schema_extra["hungryNana"],
-                "sleepyNana": TitleContents.Config.schema_extra["sleepyNana"],
-                "happyNana": TitleContents.Config.schema_extra["happyNana"]
+                "hungryNana": TitleContents.Config.json_schema_extra["hungryNana"],
+                "sleepyNana": TitleContents.Config.json_schema_extra["sleepyNana"],
+                "happyNana": TitleContents.Config.json_schema_extra["happyNana"]
             }
 
         }
@@ -71,16 +71,16 @@ class NewsCategories(BaseModel):
 
 
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "category_name": "사회",
                 "category_id": 102,
-                "title_keys": TitleKeys.Config.schema_extra["example"]["keys"],
+                "title_keys": TitleKeys.Config.json_schema_extra["example"]["keys"],
                 "details": [
                     {
-                        "hungryNana": NewsDetails.Config.schema_extra["example"]["hungryNana"],
-                        "sleepyNana": NewsDetails.Config.schema_extra["example"]["sleepyNana"],
-                        "happyNana": NewsDetails.Config.schema_extra["example"]["happyNana"]
+                        "hungryNana": NewsDetails.Config.json_schema_extra["example"]["hungryNana"],
+                        "sleepyNana": NewsDetails.Config.json_schema_extra["example"]["sleepyNana"],
+                        "happyNana": NewsDetails.Config.json_schema_extra["example"]["happyNana"]
                     }
                 ]
             }
@@ -92,11 +92,11 @@ class NewsDataList(BaseModel):
     categories: List[NewsCategories]
 
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "hot_topic": ["나녕이", "침대붕괴사건", "앵무새"],
                 "categories": [
-                    NewsCategories.Config.schema_extra
+                    NewsCategories.Config.json_schema_extra
                 ]
             }
         }
@@ -107,10 +107,10 @@ class TodayNews(BaseModel):
     todayNews: NewsDataList
 
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "updated": "2023-08-12",
-                "todayNews": NewsDataList.Config.schema_extra["example"]
+                "todayNews": NewsDataList.Config.json_schema_extra["example"]
             }
         }
 
