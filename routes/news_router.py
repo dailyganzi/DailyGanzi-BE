@@ -1,5 +1,4 @@
-from typing import List
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter
 from models.news_model import category_list, NewsCategories
 
 news_router = APIRouter()
