@@ -1,15 +1,23 @@
 from typing import List, Dict
 from pydantic import BaseModel, HttpUrl
 from module.dataloader import NewsExtractor
+import json
 
-def dataloader():
-    # 임시 데이터 저장하기 위해 path 입력 해주고 실행시켜야함!
-    # 백엔드 완성되면 삭제할 예정
-    news_extractor = NewsExtractor()
-    news_extractor.start()
-    return news_extractor.json_data
+# 데이터 불러오는 함수
+# def dataloader():
+#     # 임시 데이터 저장하기 위해 path 입력 해주고 실행시켜야함!
+#     # 백엔드 완성되면 삭제할 예정
+#     news_extractor = NewsExtractor()
+#     news_extractor.start()
+#     return news_extractor.json_data
+#
+# data = dataloader()
+# sample_file_path = FilePath("db/sample.json")
 
-data = dataloader()
+with open('C:/Users/charz/OneDrive/바탕 화면/lionhackerthon/DailyGanzi-BE/module/api_data_v0.json', "r", encoding='utf-8') as file:
+    data = json.load(file)
+keys=list(data['todayNews']['categories'][0]['details'].keys())
+print(data['todayNews']['categories'][0]['details'][keys[0]]['related'])
 
 class RelatedNews(BaseModel):
     press: str

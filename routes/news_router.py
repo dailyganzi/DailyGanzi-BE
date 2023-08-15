@@ -1,10 +1,8 @@
 from typing import List
-
 from fastapi import APIRouter, HTTPException
 from pydantic import FilePath
 from urllib.parse import unquote
 from models.news_model import category_list, TodayNews, NewsDataList, NewsCategories, NewsDetails, TitleContents
-import json
 
 news_router = APIRouter()
 
@@ -15,13 +13,6 @@ async def get_categories():
     return {"category_list": category_list}
 
 
-# sample_file_path = FilePath("db/sample.json")
-#
-# with open(sample_file_path, "r") as file:
-#     sample_file_content = json.load(file)
-
-
-# 카테고리 선택 -> 해당 카테고리 상세페이지 조회 (일단 Config를 넣어놨음)
 @news_router.get("/api/{category_id}/newsPage")
 async def get_category_news(category_id: int):
     example_category = NewsCategories.Config.json_schema_extra["example"]
