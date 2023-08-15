@@ -13,11 +13,13 @@ import json
 #     news_extractor = NewsExtractor()
 #     news_extractor.start()
 #     return news_extractor.json_data
+#
 # data = dataloader()
 # sample_file_path = FilePath("db/sample.json")
 
 # 임시 저장된 json 가져오기
-with open('{your_path}/api_data_v0.json', "r",
+path = ""
+with open(f'{path}/api_data_v0.json', "r",
           encoding='utf-8') as file:
     example_category = json.load(file)
 
@@ -42,9 +44,20 @@ async def get_category_news(category_id: int):
 
     return {"message": "Category not found"}
 
+# detail 키워드별 정보 불러오기
+@news_router.get("/api/{category_id}/newsPage/{keyword_id}")
+async def get_category_keyword_news(category_id: int, keyword_id: str):
+    # 주어진 데이터에서 카테고리와 키워드에 해당하는 정보 찾기
+    category_data = example_category["todayNews"]["categories"]
+    for category in category_data:
+        if category["category_id"] == category_id:
+            for idx, details in enumerate(category["details"]):
+                print(idx, details)
+                if keyword_id in details:
+                    return details[keyword_id]
 
+    return {"message": "Category or keyword not found"}
 
-
-
-
+# 관련 뉴스 정보 불러오기
+# @news_router.get("/api/{category_id}/newsPage/{keyword_id}/related_news/{url_id}")
 

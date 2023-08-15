@@ -5,7 +5,6 @@ from routes.users_router import users_router
 import uvicorn
 app = FastAPI()
 
-
 # 테스트용
 @app.get("/")
 async def main() -> dict:

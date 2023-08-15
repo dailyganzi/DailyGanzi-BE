@@ -8,7 +8,7 @@ import numpy as np
 # 참고
 # 키워드 추출 요약 알고리즘 (TextRank) : https://lovit.github.io/nlp/2019/04/30/textrank/
 
-USER = '너의 로컬 주소를 입력'
+USER = 'C:/Users/charz/OneDrive/바탕 화면/lionhackerthon'
 file_path = f'{USER}/DailyGanzi-BE/module/extractor'
 class SentenceTokenizer(object):
     def __init__(self):

@@ -7,7 +7,7 @@ import random
 from module.crawler.article_crawler import ArticleCrawler
 from module.extractor.data_preparation import NewsDuplicateProcessor, NewsTextRankProcessor
 
-file_path = f'{your_path}'
+file_path = 'C:/Users/charz/OneDrive/바탕 화면/lionhackerthon/DailyGanzi-BE/module'
 
 class NewsExtractor:
     def __init__(self):
@@ -79,8 +79,15 @@ class NewsExtractor:
                         "contents": contents_list[:3],
                         "related": related_articles_list[:3]  # Add related articles
                     }
-                    category_info["details"].append({keyword : item})
-                    category_info["details"][category_info["details"].index({keyword : item})][keyword]["img_url"] = selected_img_url
+                    category_info["details"].append({keyword: item})
+                    category_info["details"][category_info["details"].index({keyword: item})][keyword][
+                        "img_url"] = selected_img_url
+
+                # # Find the index of the added item and update it with keyword_id and img_url
+                    # added_item_index = next(idx for idx, d in enumerate(category_info["details"]) if keyword in d)
+                    # category_info["details"][added_item_index][keyword]["keyId"] = keyword_id
+                    # category_info["details"][added_item_index][keyword]["img_url"] = selected_img_url
+
             response_schema["todayNews"]["categories"].append(category_info)
 
         # Sort categories by ID
