@@ -7,7 +7,8 @@ import random
 from module.crawler.article_crawler import ArticleCrawler
 from module.extractor.data_preparation import NewsDuplicateProcessor, NewsTextRankProcessor
 
-file_path = ''
+file_path = f'{your_path}'
+
 class NewsExtractor:
     def __init__(self):
         self.categories = ['정치', '경제', '사회', '생활문화', '세계', 'IT과학']
@@ -47,7 +48,7 @@ class NewsExtractor:
             category_info = {
                 "category_name": category,
                 "category_id": self.categories_dict[category],
-                "details": {}
+                "details": []
             }
             for keyword, df in keyword_dict.items():
                 img_url_list = []  # List to hold unique image URLs for each keyword
@@ -78,8 +79,8 @@ class NewsExtractor:
                         "contents": contents_list[:3],
                         "related": related_articles_list[:3]  # Add related articles
                     }
-                    category_info["details"][keyword] = item
-                    category_info["details"][keyword]["img_url"] = selected_img_url
+                    category_info["details"].append({keyword : item})
+                    category_info["details"][category_info["details"].index({keyword : item})][keyword]["img_url"] = selected_img_url
             response_schema["todayNews"]["categories"].append(category_info)
 
         # Sort categories by ID
