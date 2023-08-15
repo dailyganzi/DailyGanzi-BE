@@ -41,8 +41,9 @@ async def get_category_news(category_id: int):
                 "category_name": category["category_name"],
                 "details": category["details"]
             }
-
-    return {"message": "Category not found"}
+        else:
+            raise HTTPException(status_code=404, detail="Related news URL not found")
+    raise HTTPException(status_code=404, detail="Category or keyword not found")
 
 # detail 키워드별 정보 불러오기
 @news_router.get("/api/{category_id}/newsPage/{keyword_id}")
@@ -56,11 +57,25 @@ async def get_category_keyword_news(category_id: int, keyword_id: int):
                 keyword, content = list(details.items())[0]
                 return {
                     "keyword": keyword,
-                    "details": content
+                    "details": content["contents"]
                 }
+            else:
+                raise HTTPException(status_code=404, detail="Related news URL not found")
+    raise HTTPException(status_code=404, detail="Category or keyword not found")
 
-    return {"message": "Category or keyword not found"}
+# 관련 뉴스 정보 개별 불러오기
+@news_router.get("/api/{category_id}/newsPage/{keyword_id}/related_news/{url_id}")
+async def get_category_keyword_news(category_id: int, keyword_id: int, url_id : int):
+    category_data = example_category["todayNews"]["categories"]
+    for category in category_data:
+        if category["category_id"] == category_id:
+            if 0 <= keyword_id < len(category["details"]):
+                details = category["details"][keyword_id]
+                _, content = list(details.items())[0]
+                related_news = content["related"]
 
-# 관련 뉴스 정보 불러오기
-# @news_router.get("/api/{category_id}/newsPage/{keyword_id}/related_news/{url_id}")
-
+                if 0 <= url_id < len(related_news):
+                    return related_news[url_id]
+                else:
+                    raise HTTPException(status_code=404, detail="Related news URL not found")
+    raise HTTPException(status_code=404, detail="Category or keyword not found")
