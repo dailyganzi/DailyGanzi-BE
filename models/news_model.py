@@ -15,6 +15,22 @@ class RelatedNews(BaseModel):
              {'press': '중앙일보', 'title': '윤대통령 남영진 KBS 이사장 해임안 재가…해임 확정', 'preview': ['방송통신위원회는 이날 오전 전체 회의를 열고 남 이사장에 대한 해임 제청 안을 의결했다.'], 'url': 'https://n.news.naver.com/mnews/article/025/0003300631?sid=100'}]
         }
 
+class RelatedNews(BaseModel):
+    press: str
+    title: str
+    preview: str
+    url: HttpUrl
+
+    class Config:
+        json_schema_extra = {
+            "related": {
+                "press": "세계일보" ,
+                "title": "‘보수 원로’ 윤여준 尹에 “평소 실력 안 되는데 어떻게 잼버리 위기대응하겠나”" ,
+                "preview": ["윤 전 장관은 ..."] ,
+                "url": "https://n.news.naver.com/mnews/article/022/0003844477?sid=100"
+            }
+        }
+
 class TitleContents(BaseModel):
     img_url: HttpUrl
     contents: List[str]
@@ -30,7 +46,7 @@ class TitleContents(BaseModel):
                     "나녕이가 배고파서 울었다."
                 ],
                 "related": [
-                    RelatedNews.Config.json_schema_extra["related"][0]
+                  RelatedNews.Config.json_schema_extra["related"][0]
                 ],
             },
             "sleepyNana": {

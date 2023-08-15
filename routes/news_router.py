@@ -39,6 +39,7 @@ async def get_categories():
 
 # 상세페이지 - 키워드별 정보 불러오기
 @news_router.get("/api/{category_id}/newsPage")
+
 async def get_category_keyword_news(category_id: int):
     # 주어진 데이터에서 카테고리와 키워드에 해당하는 정보 찾기
     category_data = example_category["todayNews"]["categories"]
@@ -54,3 +55,7 @@ async def get_category_keyword_news(category_id: int):
 
     # 카테고리 아이디에 해당하는 정보가 없는 경우 오류 발생
     raise HTTPException(status_code=404, detail="Category not found")
+
+
+
+
