@@ -7,14 +7,12 @@ import random
 from module.crawler.article_crawler import ArticleCrawler
 from module.extractor.data_preparation import NewsDuplicateProcessor, NewsTextRankProcessor
 
-
-USER = '너의 로컬 주소를 입력'
-file_path = f'{USER}/DailyGanzi-BE/module'
-
+file_path = f'./DailyGanzi-BE/module'
 class NewsExtractor:
     def __init__(self):
         self.categories = ['정치', '경제', '사회', '생활문화', '세계', 'IT과학']
         self.categories_dict = ArticleCrawler().categories  # Assuming you have a dictionary mapping categories to IDs
+
         self.json_data = None
     def search_data(self):
         # Crawler articles

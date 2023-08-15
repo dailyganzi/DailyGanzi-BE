@@ -1,6 +1,15 @@
 from typing import List, Dict
 from pydantic import BaseModel, HttpUrl
+from module.dataloader import NewsExtractor
 
+def dataloader():
+    # 임시 데이터 저장하기 위해 path 입력 해주고 실행시켜야함!
+    # 백엔드 완성되면 삭제할 예정
+    news_extractor = NewsExtractor()
+    news_extractor.start()
+    return news_extractor.json_data
+
+data = dataloader()
 
 class RelatedNews(BaseModel):
     press: str
