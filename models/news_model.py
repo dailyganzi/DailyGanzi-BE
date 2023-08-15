@@ -14,7 +14,7 @@ import json
 # data = dataloader()
 # sample_file_path = FilePath("db/sample.json")
 
-with open('C:/Users/charz/OneDrive/바탕 화면/lionhackerthon/DailyGanzi-BE/module/api_data_v0.json', "r", encoding='utf-8') as file:
+with open('', "r", encoding='utf-8') as file:
     data = json.load(file)
 keys=list(data['todayNews']['categories'][0]['details'].keys())
 print(data['todayNews']['categories'][0]['details'][keys[0]]['related'])
@@ -144,7 +144,6 @@ class NewsDataList(BaseModel):
                 ]
             }
         }
-
 
 class TodayNews(BaseModel):
     updated: str

@@ -7,7 +7,7 @@ import random
 from module.crawler.article_crawler import ArticleCrawler
 from module.extractor.data_preparation import NewsDuplicateProcessor, NewsTextRankProcessor
 
-file_path = f'./DailyGanzi-BE/module'
+file_path = ''
 class NewsExtractor:
     def __init__(self):
         self.categories = ['정치', '경제', '사회', '생활문화', '세계', 'IT과학']
