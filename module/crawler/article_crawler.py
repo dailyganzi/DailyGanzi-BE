@@ -248,7 +248,7 @@ class ArticleCrawler(object):
                     raise ex
 
             # print(f"현재 수집 페이지 {cnt_page} \n{category_name} urls are generated \n{url_format}")
-            cnt_page += 50
+            cnt_page += 20
             last_urls = post_urls
             # 프로그레스 바 업데이트
             pbar.update(1)

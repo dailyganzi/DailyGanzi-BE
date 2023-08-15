@@ -13,9 +13,10 @@ class NewsExtractor:
     def __init__(self):
         self.categories = ['정치', '경제', '사회', '생활문화', '세계', 'IT과학']
         self.categories_dict = ArticleCrawler().categories  # Assuming you have a dictionary mapping categories to IDs
-
         self.json_data = None
+
     def search_data(self):
+
         # Crawler articles
         crawler = ArticleCrawler()
         crawler.set_category(*self.categories)
@@ -51,14 +52,14 @@ class NewsExtractor:
                 "details": []
             }
             for keyword, df in keyword_dict.items():
+                details_temp = {"keyword" : keyword}
                 img_url_list = []  # List to hold unique image URLs for each keyword
                 contents_list = []
                 related_articles_list = []  # List to hold related articles
+
                 for _, row in df.iterrows():
                     if row["img_url"] == "No Image":
                         continue
-                    # if len(row["sentences"]) < 5:
-                    #     continue
                     img_url_list.append(row["img_url"])
                     contents_list.extend(row["sentences"])
 
@@ -70,23 +71,11 @@ class NewsExtractor:
                     }
                     related_articles_list.append(related_article)
 
-                    if len(contents_list) >= 3:
-                        break
+                details_temp["contents"] = [i for i in contents_list if i != ''][:3],
+                details_temp["related"] = related_articles_list[:3],
+                details_temp["img_url"] = random.choice(img_url_list)
 
-                if len(contents_list) >= 3:
-                    selected_img_url = random.choice(img_url_list)
-                    item = {
-                        "contents": contents_list[:3],
-                        "related": related_articles_list[:3]  # Add related articles
-                    }
-                    category_info["details"].append({keyword: item})
-                    category_info["details"][category_info["details"].index({keyword: item})][keyword][
-                        "img_url"] = selected_img_url
-
-                # # Find the index of the added item and update it with keyword_id and img_url
-                    # added_item_index = next(idx for idx, d in enumerate(category_info["details"]) if keyword in d)
-                    # category_info["details"][added_item_index][keyword]["keyId"] = keyword_id
-                    # category_info["details"][added_item_index][keyword]["img_url"] = selected_img_url
+                category_info["details"].append(details_temp)
 
             response_schema["todayNews"]["categories"].append(category_info)
 

@@ -85,8 +85,6 @@ class NewsDetails(BaseModel):
 
         }
 
-
-
 class NewsCategories(BaseModel):
     category_name: str
     category_id: int
@@ -109,7 +107,6 @@ class NewsCategories(BaseModel):
                 ]
             }
         }
-
 
 class NewsDataList(BaseModel):
     hot_topic: List[str]
