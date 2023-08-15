@@ -7,22 +7,21 @@ from module.dataloader import NewsExtractor
 import json
 
 # 데이터 불러오는 함수
-# def dataloader():
-#     # 임시 데이터 저장하기 위해 path 입력 해주고 실행시켜야함!
-#     # 백엔드 완성되면 삭제할 예정
-#     news_extractor = NewsExtractor()
-#     news_extractor.start()
-#     return news_extractor.json_data
-#
-# data = dataloader()
+def dataloader():
+    # 임시 데이터 저장하기 위해 path 입력 해주고 실행시켜야함!
+    # 백엔드 완성되면 삭제할 예정
+    news_extractor = NewsExtractor()
+    news_extractor.start()
+    return news_extractor.json_data
+
+data = dataloader()
 # sample_file_path = FilePath("db/sample.json")
 
 # 임시 저장된 json 가져오기
-path = "C:/Users/charz/OneDrive/바탕 화면/lionhackerthon/DailyGanzi-BE/module"
+path = ""
 with open(f'{path}/api_data_v0.json', "r",
           encoding='utf-8') as file:
     example_category = json.load(file)
-
 news_router = APIRouter()
 
 

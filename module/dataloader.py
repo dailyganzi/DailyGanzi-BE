@@ -7,7 +7,7 @@ import random
 from module.crawler.article_crawler import ArticleCrawler
 from module.extractor.data_preparation import NewsDuplicateProcessor, NewsTextRankProcessor
 
-file_path = 'C:/Users/charz/OneDrive/바탕 화면/lionhackerthon/DailyGanzi-BE/module'
+file_path = ''
 
 class NewsExtractor:
     def __init__(self):
@@ -65,7 +65,7 @@ class NewsExtractor:
                     related_article = {
                         "press": row["company"],
                         "title": row["title"],
-                        "preview": row["sentences"],
+                        "preview": ''.join(row["sentences"]),
                         "url": row["articles_url"],
                     }
                     related_articles_list.append(related_article)
