@@ -1,42 +1,60 @@
-from fastapi import APIRouter
-from models.news_model import category_list, NewsCategories
+from typing import List
+from fastapi import APIRouter, HTTPException
+from pydantic import FilePath
+from urllib.parse import unquote
+from models.news_model import category_list, TodayNews, NewsDataList, NewsCategories, NewsDetails, TitleContents
+from module.dataloader import NewsExtractor
+import json
 
+# 데이터 불러오는 함수
+# def dataloader():
+#     # 임시 데이터 저장하기 위해 path 입력 해주고 실행시켜야함!
+#     # 백엔드 완성되면 삭제할 예정
+#     news_extractor = NewsExtractor()
+#     news_extractor.start()
+#     return news_extractor.json_data
+#
+# data = dataloader()
+# sample_file_path = FilePath("db/sample.json")
+
+# 임시 저장된 json 가져오기
+path = ""
+with open(f'{path}/api_data_v0.json', "r",
+          encoding='utf-8') as file:
+    example_category = json.load(file)
 news_router = APIRouter()
 
-
 # 메인피드에서 카테고리 목록 조회
+@news_router.get("/api/hot-topic")
+async def get_topics():
+    hot_topic = example_category["todayNews"]["hot_topic"]
+    return {"hot_topic": hot_topic[:3]}
+
+
 @news_router.get("/api/categories")
 async def get_categories():
-    return {"category_list": category_list}
+    category_dict = {'정치': 100, '경제': 101, '사회': 102, '생활문화': 103, '세계': 104, 'IT과학': 105}
+    return {"categories": category_dict}
 
 
-# sample_file_path = FilePath("db/sample.json")
-#
-# with open(sample_file_path, "r") as file:
-#     sample_file_content = json.load(file)
-
-
-# 카테고리 선택 -> 해당 카테고리 상세페이지 조회 (일단 Config를 넣어놨음)
+# 상세페이지 - 키워드별 정보 불러오기
 @news_router.get("/api/{category_id}/newsPage")
-async def get_category_news(category_id: int):
-    example_category = NewsCategories.Config.json_schema_extra["example"]
-    if example_category["category_id"] == category_id:
-        return {
-            "today_keys": example_category["title_keys"],
-            "details": example_category["details"]
-                }
-    else:
-        return {"message": "Category not found"}
 
+async def get_category_keyword_news(category_id: int):
+    # 주어진 데이터에서 카테고리와 키워드에 해당하는 정보 찾기
+    category_data = example_category["todayNews"]["categories"]
+    for category in category_data:
+        if category["category_id"] == category_id:
+            # 키워드를 추출하여 리스트에 저장
+            keywords = [detail["keyword"] for detail in category["details"]]
+            return {
+                "category" : category["category_name"],
+                "today_topic" :  keywords,
+                "details": category['details'],
+            }
 
-# 오전 12시 이후 뉴스 업데이트
-
-
-
-
-
-
-
+    # 카테고리 아이디에 해당하는 정보가 없는 경우 오류 발생
+    raise HTTPException(status_code=404, detail="Category not found")
 
 
 

@@ -1,6 +1,19 @@
 from typing import List, Dict
 from pydantic import BaseModel, HttpUrl
 
+class RelatedNews(BaseModel):
+    press: str
+    title: str
+    preview: str
+    url: HttpUrl
+
+    class Config:
+        json_schema_extra = {
+            'related' :
+            [{'press': '조선일보', 'title': '도심 50㎞·스쿨존 30㎞ 제한속도 시간별 탄력 운영키로', 'preview': ['與 “ 획일적 규제로 정체 유발” 서울 시내 한 초등학교 앞 스쿨 존의 모습. 뉴스 1 여당이 현재 시속 50㎞ 로 일괄 제한된 도심 도로 제한 속도 규제를 완화하기로 했다.'], 'url': 'https://n.news.naver.com/mnews/article/023/0003781596?sid=100'},
+             {'press': '뉴스1', 'title': '윤 대통령 남영진 KBS 이사장 해임안 재가…이사진 구도 재편 전망종합', 'preview': ['방송통신위원회는 이날 오전 정부과 천청사에서 전체 회의를 열고 남 영진 이사장에 대한 해임 제청 안과 정미 정 EBS 이사 해임 안을 각각 의결했다.'], 'url': 'https://n.news.naver.com/mnews/article/421/0006990479?sid=100'},
+             {'press': '중앙일보', 'title': '윤대통령 남영진 KBS 이사장 해임안 재가…해임 확정', 'preview': ['방송통신위원회는 이날 오전 전체 회의를 열고 남 이사장에 대한 해임 제청 안을 의결했다.'], 'url': 'https://n.news.naver.com/mnews/article/025/0003300631?sid=100'}]
+        }
 
 class RelatedNews(BaseModel):
     press: str
@@ -33,7 +46,7 @@ class TitleContents(BaseModel):
                     "나녕이가 배고파서 울었다."
                 ],
                 "related": [
-                    RelatedNews.Config.json_schema_extra["related"]
+                  RelatedNews.Config.json_schema_extra["related"][0]
                 ],
             },
             "sleepyNana": {
@@ -44,7 +57,7 @@ class TitleContents(BaseModel):
                     "속보 침대붕괴사건 발생"
                 ],
                 "related": [
-                    RelatedNews.Config.json_schema_extra["related"]
+                    RelatedNews.Config.json_schema_extra["related"][1]
                 ],
             },
             "happyNana": {
@@ -55,7 +68,7 @@ class TitleContents(BaseModel):
                     "나녕이가 맥북을 때렸다."
                 ],
                 "related": [
-                    RelatedNews.Config.json_schema_extra["related"]
+                    RelatedNews.Config.json_schema_extra["related"][2]
                 ],
             }
         }
@@ -88,8 +101,6 @@ class NewsDetails(BaseModel):
 
         }
 
-
-
 class NewsCategories(BaseModel):
     category_name: str
     category_id: int
@@ -113,7 +124,6 @@ class NewsCategories(BaseModel):
             }
         }
 
-
 class NewsDataList(BaseModel):
     hot_topic: List[str]
     categories: List[NewsCategories]
@@ -127,7 +137,6 @@ class NewsDataList(BaseModel):
                 ]
             }
         }
-
 
 class TodayNews(BaseModel):
     updated: str
