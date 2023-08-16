@@ -8,8 +8,7 @@ import numpy as np
 # 참고
 # 키워드 추출 요약 알고리즘 (TextRank) : https://lovit.github.io/nlp/2019/04/30/textrank/
 
-USER = ''
-file_path = f'{USER}/DailyGanzi-BE/module/extractor'
+file_path = f'module/extractor'
 class SentenceTokenizer(object):
     def __init__(self):
         self.kkma = Kkma()

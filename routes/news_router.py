@@ -19,10 +19,11 @@ import requests
 # sample_file_path = FilePath("db/sample.json")
 
 # 임시 저장된 json 가져오기
-# path = "https://res.cloudinary.com/dedf7agck/raw/upload/v1692179424/api_data_v0_q2v9fy.json"
-# with open(path, "r",
-#           encoding='utf-8') as file:
-#     example_category = json.load(file)
+path = "https://res.cloudinary.com/dedf7agck/raw/upload/v1692179424/api_data_v0_q2v9fy.json"
+with open(path, "r",
+          encoding='utf-8') as file:
+    example_category = json.load(file)
+
 news_router = APIRouter()
 
 cdn_link = "https://res.cloudinary.com/dedf7agck/raw/upload/v1692179424/api_data_v0_q2v9fy.json"
@@ -68,7 +69,7 @@ async def get_category_keyword_news(category_id: int):
 
     # 카테고리 아이디에 해당하는 정보가 없는 경우 오류 발생
     raise HTTPException(status_code=404, detail="Category not found")
-
+#
 
 
 
