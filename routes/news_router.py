@@ -3,8 +3,9 @@ from fastapi import APIRouter, HTTPException
 from pydantic import FilePath
 from urllib.parse import unquote
 from models.news_model import category_list, TodayNews, NewsDataList, NewsCategories, NewsDetails, TitleContents
-from module.dataloader import NewsExtractor
+# from module.dataloader import NewsExtractor
 import json
+import requests
 
 # 데이터 불러오는 함수
 # def dataloader():
@@ -18,11 +19,23 @@ import json
 # sample_file_path = FilePath("db/sample.json")
 
 # 임시 저장된 json 가져오기
-path = ""
-with open(f'{path}/api_data_v0.json', "r",
-          encoding='utf-8') as file:
-    example_category = json.load(file)
+# path = "https://res.cloudinary.com/dedf7agck/raw/upload/v1692179424/api_data_v0_q2v9fy.json"
+# with open(path, "r",
+#           encoding='utf-8') as file:
+#     example_category = json.load(file)
 news_router = APIRouter()
+
+cdn_link = "https://res.cloudinary.com/dedf7agck/raw/upload/v1692179424/api_data_v0_q2v9fy.json"
+
+response = requests.get(cdn_link)
+
+if response.status_code == 200:
+    content = response.content  # 바이트 데이터로 응답 받기
+    decoded_content = content.decode('utf-8')  # UTF-8로 디코딩
+    example_category = json.loads(decoded_content)  # JSON 파싱
+    print(example_category)
+else:
+    print("요청 실패:", response.status_code)
 
 # 메인피드에서 카테고리 목록 조회
 @news_router.get("/api/hot-topic")
