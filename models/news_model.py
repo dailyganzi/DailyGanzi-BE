@@ -30,7 +30,6 @@ class RelatedNews(BaseModel):
                 "url": "https://n.news.naver.com/mnews/article/022/0003844477?sid=100"
             }
         }
-
 class TitleContents(BaseModel):
     img_url: HttpUrl
     contents: List[str]

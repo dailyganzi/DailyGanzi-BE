@@ -14,7 +14,6 @@ import requests
     # news_extractor = NewsExtractor()
 #     news_extractor.start()
 #     return news_extractor.json_data
-#
 # data = dataloader()
 # sample_file_path = FilePath("db/sample.json")
 
