@@ -10,9 +10,12 @@ load_dotenv()
 
 MONGO_URI = os.getenv("MONGO_URI")
 
+client = MongoClient(MONGO_URI)
+db = client["news"]
+
 
 class MongoDB:
-    def init(self, db_name="news"):
+    def __init__(self, db_name="news"):
         self.client = AsyncIOMotorClient(MONGO_URI)
         self.db = self.client[db_name]
 
@@ -20,13 +23,12 @@ class MongoDB:
         return self.db[collection_name]
 
 
-client = MongoClient(MONGO_URI)
-db = client["news"]
-
-related_news_collection = db["related_news"]
-title_contents_collection = db["title_contents"]
-title_keys_collection = db["title_keys"]
-news_details_collection = db["news_details"]
-news_categories_collection = db["news_categories"]
-news_data_list_collection = db["news_data_list"]
-today_news_collection = db["today_news"]
+collections = {
+    "related_news": db["related_news"],
+    "title_contents": db["title_contents"],
+    "title_keys": db["title_keys"],
+    "news_details": db["news_details"],
+    "news_categories": db["news_categories"],
+    "news_data_list": db["news_data_list"],
+    "today_news": db["today_news"],
+}

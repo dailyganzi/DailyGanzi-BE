@@ -4,11 +4,14 @@ from pydantic import FilePath
 from urllib.parse import unquote
 from models.news_model import category_list, TodayNews, NewsDataList, NewsCategories, NewsDetails, TitleContents
 from module.dataloader import NewsExtractor
+from db.database import collections
 import json
 import requests
 
+news_router = APIRouter()
+
 # 데이터 불러오는 함수
-ROOT = ''
+ROOT = '/Users/nyungnim/Documents'
 path = f'{ROOT}/DailyGanzi-BE'
 
 def dataloader(path, pages):
@@ -68,4 +71,16 @@ data = dataloader(path,100)
 #     # 카테고리 아이디에 해당하는 정보가 없는 경우 오류 발생
 #     raise HTTPException(status_code=404, detail="Category not found")
 
+# CRUD (create & update)
+
+# 컬렉션 초기화
+@news_router.post("/create_news")
+async def create_news(news: TodayNews):
+    related_news_collection = collections["related_news"]
+    title_contents_collection = collections["title_contents"]
+    title_keys_collection = collections["title_keys"]
+    news_details_collection = collections["news_details"]
+    news_categories_collection = collections["news_categories"]
+    news_data_list_collection = collections["news_data_list"]
+    today_news_collection = collections["today_news"]
 
