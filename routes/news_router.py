@@ -25,7 +25,7 @@ import requests
 #
 news_router = APIRouter()
 
-cdn_link = "https://res.cloudinary.com/dedf7agck/raw/upload/v1692179424/api_data_v0_q2v9fy.json"
+cdn_link = "https://res.cloudinary.com/dedf7agck/raw/upload/v1692265642/api_data_v0_n4bnra.json"
 
 response = requests.get(cdn_link)
 

@@ -22,8 +22,10 @@ app.include_router(users_router)
 
 # CORS 설정
 origins = [
-    "http://localhost:5500/",
-    "https://dailyganzi.github.io/Dailyganzi-FE/",
+    # "http://localhost:5500/",
+    # "https://dailyganzi.github.io/Dailyganzi-FE/",
+    # "http://127.0.0.1:5500/"
+    "*"
 ]
 
 # MiddleWare
