@@ -7,7 +7,6 @@ import random
 from module.crawler.article_crawler import ArticleCrawler
 from module.extractor.data_preparation import NewsDuplicateProcessor, NewsTextRankProcessor
 
-
 class NewsExtractor:
     def __init__(self):
         self.categories = ['정치', '경제', '사회', '생활문화', '세계', 'IT과학']
@@ -15,7 +14,6 @@ class NewsExtractor:
         self.json_data = None
 
     def search_data(self):
-
         # Crawler articles
         crawler = ArticleCrawler()
         crawler.set_category(*self.categories)
@@ -70,7 +68,7 @@ class NewsExtractor:
                     }
                     related_articles_list.append(related_article)
 
-                details_temp["contents"] = [i for sublist in contents_list for i in sublist if i != ''][:3],
+                details_temp["contents"] = *[i for i in contents_list if i != ''][:3],
                 details_temp["related"] = *related_articles_list[:3],
                 details_temp["img_url"] = random.choice(img_url_list)
 
@@ -85,9 +83,9 @@ class NewsExtractor:
 
         # (임시) JSON 데이터 저장 + version
         version = 0;
-        while os.path.isfile(f'routes/api_data_v' + str(version) + '.json'):
+        while os.path.isfile(f'/routes/api_data_v' + str(version) + '.json'):
             version += 1
-        with open(f'routes/api_data_v' + str(version) + '.json', 'w', encoding='utf-8') as json_file:
+        with open(f'/routes/api_data_v' + str(version) + '.json', 'w', encoding='utf-8') as json_file:
             ilganzi_data = json.dumps(response_schema, indent=4, ensure_ascii=False)
             json_file.write(ilganzi_data)
         return ilganzi_data
