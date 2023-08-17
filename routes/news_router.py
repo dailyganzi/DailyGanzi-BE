@@ -18,10 +18,10 @@ import requests
 # sample_file_path = FilePath("db/sample.json")
 
 # 임시 저장된 json 가져오기
-path = "https://res.cloudinary.com/dedf7agck/raw/upload/v1692179424/api_data_v0_q2v9fy.json"
-with open(path, "r",
-          encoding='utf-8') as file:
-    example_category = json.load(file)
+# path = "https://res.cloudinary.com/dedf7agck/raw/upload/v1692179424/api_data_v0_q2v9fy.json"
+# with open(path, "r",
+#           encoding='utf-8') as file:
+#     example_category = json.load(file)
 #
 news_router = APIRouter()
 
