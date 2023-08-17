@@ -8,14 +8,16 @@ from module.crawler.article_crawler import ArticleCrawler
 from module.extractor.data_preparation import NewsDuplicateProcessor, NewsTextRankProcessor
 
 class NewsExtractor:
-    def __init__(self):
+    def __init__(self, path,pages):
         self.categories = ['정치', '경제', '사회', '생활문화', '세계', 'IT과학']
         self.categories_dict = ArticleCrawler().categories  # Assuming you have a dictionary mapping categories to IDs
         self.json_data = None
+        self.path = path
+        self.pages = pages
 
     def search_data(self):
         # Crawler articles
-        crawler = ArticleCrawler()
+        crawler = ArticleCrawler(self.pages)
         crawler.set_category(*self.categories)
         asyncio.run(crawler.start())  # Run crawler asynchronously
         return crawler.df_list
@@ -27,7 +29,7 @@ class NewsExtractor:
         df = NewsDuplicateProcessor(df).preprocess_and_remove_duplicates()
 
         # TextRank keyword extraction
-        textrank_processor = NewsTextRankProcessor(df)
+        textrank_processor = NewsTextRankProcessor(df,self.path)
         textrank_processor.start()
 
         self.top_keywords = textrank_processor.get_most_common_keywords()
@@ -57,6 +59,8 @@ class NewsExtractor:
                 for _, row in df.iterrows():
                     if row["img_url"] == "No Image":
                         continue
+                    if len(row["sentences"]) > 40 and len(row["sentences"]) < 15 and row["sentences"][::-1][2:4] == '니습':
+                        continue
                     img_url_list.append(row["img_url"])
                     contents_list.extend(row["sentences"])
 
@@ -70,8 +74,7 @@ class NewsExtractor:
 
                 details_temp["contents"] = *[i for i in contents_list if i != ''][:3],
                 details_temp["related"] = *related_articles_list[:3],
-                details_temp["img_url"] = random.choice(img_url_list)
-
+                details_temp["img_url"] = random.choice(img_url_list) if img_url_list else ['None'],
                 category_info["details"].append(details_temp)
 
             response_schema["todayNews"]["categories"].append(category_info)
@@ -83,14 +86,15 @@ class NewsExtractor:
 
         # (임시) JSON 데이터 저장 + version
         version = 0;
-        while os.path.isfile(f'/routes/api_data_v' + str(version) + '.json'):
+        while os.path.isfile(f'{self.path}/module/api_data_v' + str(version) + '.json'):
             version += 1
-        with open(f'/routes/api_data_v' + str(version) + '.json', 'w', encoding='utf-8') as json_file:
+        with open(f'{self.path}/module/api_data_v' + str(version) + '.json', 'w', encoding='utf-8') as json_file:
             ilganzi_data = json.dumps(response_schema, indent=4, ensure_ascii=False)
             json_file.write(ilganzi_data)
         return ilganzi_data
 
     def start(self):
+        # 개체명 인식을 넣었어도 될거같은데 왜 생각을 못했을까
         self.extract_data(self.search_data())
         self.json_data = self.create_response_json()
         print('Done')

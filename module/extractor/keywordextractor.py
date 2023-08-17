@@ -8,13 +8,13 @@ import numpy as np
 # 참고
 # 키워드 추출 요약 알고리즘 (TextRank) : https://lovit.github.io/nlp/2019/04/30/textrank/
 
-file_path = f''
 class SentenceTokenizer(object):
-    def __init__(self):
+    def __init__(self, path):
+        self.path = path
         self.kkma = Kkma()
         self.okt = Okt()
         # 불용어 사전 파일을 읽어와서 불용어 사전 구성
-        with open(f'{file_path}/stopword.txt', 'r', encoding='utf-8') as f:
+        with open(f'{self.path}/module/extractor/stopword.txt', 'r', encoding='utf-8') as f:
             self.stopwords = set(f.read().splitlines())
 
     # 문장 토큰화
@@ -67,12 +67,9 @@ class Rank(object):
         try:
             A = graph
             matrix_size = A.shape[0]
-
             for id in range(matrix_size):
                 A[id, id] = 0
-
                 link_sum = np.sum(A[:, id])
-
                 if link_sum != 0:
                     A[:, id] /= link_sum
                 A[:, id] *= -d
@@ -86,9 +83,9 @@ class Rank(object):
             return None
 
 class TextRank(object):
-    def __init__(self, text):
+    def __init__(self, text, path):
         try:
-            self.sent_tokenize = SentenceTokenizer()
+            self.sent_tokenize = SentenceTokenizer(path)
             self.sentences = self.sent_tokenize.sentences(text)
             self.nouns = self.sent_tokenize.get_nouns(self.sentences)
 

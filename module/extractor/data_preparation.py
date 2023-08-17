@@ -13,6 +13,13 @@ class NewsDuplicateProcessor:
 
     def remove_quoted_text(self, text):
         text = text.replace('“', '"').replace('”', '"')
+
+        pattern = r"[가-힣]+\s[가-힣]+\s[가-힣]+\s[가-힣]+\s기자"
+        pattern2 = r"\s사진 영상 제보 받습니다"
+
+        text = re.sub(pattern, "", text)
+        text = re.sub(pattern2, "", text)
+
         return re.sub(r'"[^"]+"', '', text)
 
     def preprocess_dataframe(self, df):
@@ -56,12 +63,13 @@ class NewsDuplicateProcessor:
 
 
 class NewsTextRankProcessor:
-    def __init__(self, data):
+    def __init__(self, data, file_path):
         self.df = data
+        self.path = file_path
 
     def process_document(self, content):
         try:
-            textrank = TextRank(content)
+            textrank = TextRank(content,self.path)
             sentences = textrank.summarize()
             keywords = textrank.keywords()
 

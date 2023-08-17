@@ -15,7 +15,7 @@ import os
 # Crawler Source : lumyjuwon/KoreaNewsCrawler
 
 class Preprocessor(object):
-    special_symbol = re.compile('[\{\}\[\]\/?,;:|\)*~`!^\-_+<>@\#$&▲▶◆◀■【】\\\=\(\'\"]')
+    special_symbol = re.compile('[\{\}\[\]\/?,;:|\)*~`!^\-_+<>@\#$&▲▶◆ⓒ◀■【】\\\=\(\'\"]')
     content_pattern = re.compile(
         '본문 내용|TV플레이어| 동영상 뉴스|flash 오류를 우회하기 위한 함수 추가function  flash removeCallback|tt|앵커 멘트|xa0')
 
@@ -45,11 +45,12 @@ class Preprocessor(object):
 
 class ArticleCrawler(object):
     # Naver 뉴스기사 수집
-    def __init__(self):
+    def __init__(self, pages = 30):
         self.categories = {'정치': 100, '경제': 101, '사회': 102, '생활문화': 103, '세계': 104, 'IT과학': 105}  # '오피니언': 110
         self.selected_categories = []
         self.df_list = {}
         self.date = None
+        self.pages = pages
 
     def set_category(self, *args):
         for key in args:
@@ -162,7 +163,7 @@ class ArticleCrawler(object):
                     text_headline = ''
                     text_headline = text_headline + Preprocessor.clear_headline(
                         str(tag_headline[0].find_all(text=True)))
-                    text_headline = text_headline.replace('속보', '[속보] ')
+                    text_headline = text_headline.replace('속보', '')
                     # 공백일 경우 기사 제외 처리
                     if not text_headline:
                         raise Exception('Not found article headline')
@@ -248,7 +249,7 @@ class ArticleCrawler(object):
                     raise ex
 
             # print(f"현재 수집 페이지 {cnt_page} \n{category_name} urls are generated \n{url_format}")
-            cnt_page += 30
+            cnt_page += self.pages
             last_urls = post_urls
             # 프로그레스 바 업데이트
             pbar.update(1)
