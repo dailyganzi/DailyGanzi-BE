@@ -1,10 +1,15 @@
 from fastapi import FastAPI
+from pymongo import MongoClient
 from starlette.middleware.base import BaseHTTPMiddleware
 from routes.news_router import news_router
 from fastapi.middleware.cors import CORSMiddleware
-
 import uvicorn
 app = FastAPI()
+
+# MongoDB 연결 설정
+client = MongoClient('mongodb://localhost:27017/')
+db = client['mydatabase']
+today_news_collection = db['todayNews']
 
 # 테스트용
 @app.get("/")
@@ -15,8 +20,6 @@ async def main() -> dict:
 
 # 뉴스 관련 라우터
 app.include_router(news_router)
-
-
 # CORS 설정
 origins = [
     # "http://localhost:5500/",
@@ -35,13 +38,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
 class CustomMiddleWare(BaseHTTPMiddleware):
     async def dispatch(self,request,call_next):
         response = await call_next(request)
         return response
-
-
 app.add_middleware(CustomMiddleWare)
 
 if __name__ == '__main__':

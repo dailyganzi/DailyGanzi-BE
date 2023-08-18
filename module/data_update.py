@@ -27,6 +27,7 @@ async def update_news_data():
 
     print(f"Data for {today} added to today_news collection")
     client.close()  # 연결 종료
+
 def run_scheduler():
     # 무한 루프로 스케줄링 작업 수행
     while True:
