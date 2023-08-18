@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 from starlette.middleware.base import BaseHTTPMiddleware
 from routes.news_router import news_router
-from routes.users_router import users_router
 from fastapi.middleware.cors import CORSMiddleware
 
 import uvicorn
@@ -16,8 +15,6 @@ async def main() -> dict:
 
 # 뉴스 관련 라우터
 app.include_router(news_router)
-# 유저 관련 라우터
-app.include_router(users_router)
 
 
 # CORS 설정
@@ -39,7 +36,6 @@ app.add_middleware(
 )
 
 
-# 이건 넣을지 말지 모르겠는 것: 사용자 정의 미들웨어 - 이거 수정될 수도 있음
 class CustomMiddleWare(BaseHTTPMiddleware):
     async def dispatch(self,request,call_next):
         response = await call_next(request)

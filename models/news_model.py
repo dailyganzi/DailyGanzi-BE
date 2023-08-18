@@ -137,6 +137,7 @@ class NewsDataList(BaseModel):
             }
         }
 
+
 class TodayNews(BaseModel):
     updated: str
     todayNews: NewsDataList
