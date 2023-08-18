@@ -1,6 +1,11 @@
+import asyncio
+
+import schedule
 from fastapi import FastAPI
 from pymongo import MongoClient
 from starlette.middleware.base import BaseHTTPMiddleware
+
+from module.data_update import run_scheduler, update_news_data
 from routes.news_router import news_router
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
@@ -42,7 +47,27 @@ class CustomMiddleWare(BaseHTTPMiddleware):
     async def dispatch(self,request,call_next):
         response = await call_next(request)
         return response
+
 app.add_middleware(CustomMiddleWare)
 
+
+# 스케줄링 함수
+async def schedule_task():
+    while True:
+        await asyncio.sleep(1)  # 이벤트 루프가 차단되지 않도록 일시적으로 잠시 대기
+        schedule.run_pending()
+
+# 비동기 이벤트 루프 실행
+async def start_background_tasks():
+    asyncio.create_task(schedule_task())
+    asyncio.create_task(update_news_data())
+
+
 if __name__ == '__main__':
+    loop = asyncio.get_event_loop()
+    scheduled_time = "00:30"
+    # 스케줄링 함수 등록
+    schedule.every().day.at(scheduled_time).do(lambda: asyncio.create_task(update_news_data()))
+    # 비동기 이벤트 루프 실행
+    loop.run_until_complete(start_background_tasks())
     uvicorn.run(app, port=8000)
