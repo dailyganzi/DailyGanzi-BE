@@ -6,6 +6,7 @@ import os
 import random
 from module.crawler.article_crawler import ArticleCrawler
 from module.extractor.data_preparation import NewsDuplicateProcessor, NewsTextRankProcessor
+
 class NewsExtractor:
     def __init__(self, path,pages):
         self.categories = ['정치', '경제', '사회', '생활문화', '세계', 'IT과학']
@@ -14,11 +15,11 @@ class NewsExtractor:
         self.path = path
         self.pages = pages
 
-    def search_data(self):
+    async def search_data(self):
         # Crawler articles
         crawler = ArticleCrawler(self.pages)
         crawler.set_category(*self.categories)
-        asyncio.run(crawler.start())  # Run crawler asynchronously
+        await crawler.start()  # Await crawler start asynchronously
         return crawler.df_list
 
     def extract_data(self,df_list):
@@ -92,91 +93,8 @@ class NewsExtractor:
             json_file.write(ilganzi_data)
         return ilganzi_data
 
-    def start(self):
-        # 개체명 인식을 넣었어도 될거같은데 왜 생각을 못했을까
-        self.extract_data(self.search_data())
+    async def start(self):
+        self.extract_data(await self.search_data())
         self.json_data = self.create_response_json()
         print('Done')
         return self.json_data
-
-
-# import asyncio
-# from datetime import date
-# import json
-# import pandas as pd
-# import os
-# import random
-# from module.crawler.article_crawler import ArticleCrawler
-# from module.extractor.data_preparation import NewsDuplicateProcessor, NewsTextRankProcessor
-#
-# class NewsExtractor:
-#     def __init__(self, path, pages):
-#         self.categories = ['정치', '경제', '사회', '생활문화', '세계', 'IT과학']
-#         self.categories_dict = ArticleCrawler().categories
-#         self.json_data = None
-#         self.path = path
-#         self.pages = pages
-#
-#     async def search_data(self):
-#         crawler = ArticleCrawler(self.pages)
-#         crawler.set_category(*self.categories)
-#         await crawler.start()  # 비동기 메서드는 await로 호출
-#         return crawler.df_list
-#
-#     def extract_data(self, df_list):
-#         df = pd.concat(df_list)
-#         df = NewsDuplicateProcessor(df).preprocess_and_remove_duplicates()
-#
-#         textrank_processor = NewsTextRankProcessor(df, self.path)
-#         textrank_processor.start()
-#
-#         self.top_keywords = textrank_processor.get_most_common_keywords()
-#         self.contents = textrank_processor.filter_data_with_keywords()
-#
-#     def create_response_json(self):
-#         response_schema = {
-#             "updated": str(date.today()),
-#             "todayNews": {
-#                 "hot_topic": [item[0] for item in self.top_keywords[:5]],
-#                 "categories": []
-#             }
-#         }
-#
-#         for category, keyword_dict in self.contents.items():
-#             category_info = {
-#                 "category_name": category,
-#                 "category_id": self.categories_dict[category],
-#                 "details": []
-#             }
-#             for keyword, df in keyword_dict.items():
-#                 details_temp = {"keyword": keyword}
-#                 img_url_list = []
-#                 contents_list = []
-#                 related_articles_list = []
-#
-#                 for _, row in df.iterrows():
-#                     # ... (생략)
-#                 details_temp["contents"] = [i for i in contents_list if i != ''][:3]  # 수정
-#                 details_temp["related"] = related_articles_list[:3]  # 수정
-#                 details_temp["img_url"] = random.choice(img_url_list) if img_url_list else ['None']
-#                 category_info["details"].append(details_temp)
-#
-#             response_schema["todayNews"]["categories"].append(category_info)
-#
-#         sorted_category = sorted(response_schema["todayNews"]["categories"],
-#                                  key=lambda x: self.categories_dict.get(x["category_name"], ""))
-#         response_schema["todayNews"]["categories"] = sorted_category
-#
-#         version = 0
-#         while os.path.isfile(f'{self.path}/module/api_data_v{version}.json'):
-#             version += 1
-#         with open(f'{self.path}/module/api_data_v{version}.json', 'w', encoding='utf-8') as json_file:
-#             ilganzi_data = json.dumps(response_schema, indent=4, ensure_ascii=False)
-#             json_file.write(ilganzi_data)
-#         return ilganzi_data
-#
-#     async def start(self):
-#         await self.extract_data(await self.search_data())  # 비동기로 데이터 추출 및 처리
-#         self.json_data = self.create_response_json()
-#         print('Done')
-#         return self.json_data

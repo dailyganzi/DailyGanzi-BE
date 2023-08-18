@@ -103,7 +103,6 @@ class ArticleCrawler(object):
             return None
 
     async def crawling(self, category_name):
-
         # Multi Process PID
         print(category_name + " PID: " + str(os.getpid()))
         # 어제 기사 추출
