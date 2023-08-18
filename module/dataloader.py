@@ -15,11 +15,11 @@ class NewsExtractor:
         self.path = path
         self.pages = pages
 
-    def search_data(self):
+    async def search_data(self):
         # Crawler articles
         crawler = ArticleCrawler(self.pages)
         crawler.set_category(*self.categories)
-        asyncio.run(crawler.start())  # Run crawler asynchronously
+        await crawler.start()  # Await crawler start asynchronously
         return crawler.df_list
 
     def extract_data(self,df_list):
@@ -93,10 +93,8 @@ class NewsExtractor:
             json_file.write(ilganzi_data)
         return ilganzi_data
 
-    def start(self):
-        # 개체명 인식을 넣었어도 될거같은데 왜 생각을 못했을까
-        self.extract_data(self.search_data())
+    async def start(self):
+        self.extract_data(await self.search_data())
         self.json_data = self.create_response_json()
         print('Done')
         return self.json_data
-
